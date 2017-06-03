@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jshiffler.webstore.domain.Product;
 import com.jshiffler.webstore.repository.ProductRepository;
-import com.jshifler.webstore.service.ProductService;
+import com.jshiffler.webstore.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,6 +24,12 @@ public class ProductServiceImpl implements ProductService {
 				
 		}
 		
+	}
+	
+	@Override
+	public List <Product> getAllProducts(){
+		
+		return productRepository.getAllProducts();
 	}
 	
 	

@@ -5,4 +5,4 @@
  * @author jason
  *
  */
-package com.jshifler.webstore.service;
+package com.jshiffler.webstore.service;

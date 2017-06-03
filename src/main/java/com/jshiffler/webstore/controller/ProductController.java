@@ -9,21 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jshiffler.webstore.domain.Product;
 import com.jshiffler.webstore.repository.ProductRepository;
-import com.jshifler.webstore.service.ProductService;
+import com.jshiffler.webstore.service.ProductService;
 
 @Controller
 public class ProductController {
 
-	@Autowired
-	private ProductRepository productRepository;
-
+	
 	@Autowired
 	private ProductService productService;
 	
 	@RequestMapping("/products")
 	public String List(Model model){
 
-		model.addAttribute("products", productRepository.getAllProducts());
+		model.addAttribute("products", productService.getAllProducts());
 
 		return "products";
 	}
