@@ -5,9 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/") 
 public class HomeController {
 
-	@RequestMapping("/")
+	@RequestMapping                      //Default mapping method
 	public String welcome(Model model){
 		
 		//Add attributes to the model

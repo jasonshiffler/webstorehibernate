@@ -1,6 +1,7 @@
 package com.jshiffler.webstore.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jshiffler.webstore.domain.Product;
 
@@ -8,7 +9,11 @@ import com.jshiffler.webstore.domain.Product;
 
 public interface ProductService {
 
-	void updateAllStock();
-	
+	void updateStock(String productID, long qty);
+	List <Product> getProductsByCategory(String category);
 	List <Product> getAllProducts();
+    List <Product> getProductsByFilter(String category, String manufacturer);
+    List <Product> filterProducts(String category,Map<String, List<String>> filterParams);
+    Product getProductById(String productID);
+    
 }

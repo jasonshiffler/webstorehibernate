@@ -6,11 +6,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 //Creates the Dispatcher Servlet with no need for a web.xml file.
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
 	
-	@Override
-	protected Class<?>[] getRootConfigClasses(){
-		return new Class[] {RootApplicationContextConfig.class};
-	}
-	
+		
 	@Override
 	protected Class<?>[] getServletConfigClasses(){
 		return new Class[]{
@@ -20,6 +16,12 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 	@Override
 	protected String[] getServletMappings(){
 		return new String[]{"/"};
+	}
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

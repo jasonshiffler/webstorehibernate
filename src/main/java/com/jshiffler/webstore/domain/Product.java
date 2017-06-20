@@ -6,20 +6,47 @@ package com.jshiffler.webstore.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="products")
 public class Product implements Serializable { 
 	
 
 	private static final long serialVersionUID = 3678107792576131001L;
 	
+	@Id
+	@Column(name="id")
 	private String productId;
+	
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="unit_price")
 	private BigDecimal unitPrice;
+	
+	@Column(name="description")
 	private String description;
+	
+	@Column(name="manufacturer")
 	private String manufacturer;
+	
+	@Column(name="category")
 	private String category;
+	
+	@Column(name="units_in_stock")
 	private long unitsInStock;
+	
+	@Column(name="units_in_order")
 	private long unitsInOrder;
+	
+	@Column(name="discontinued")
 	private boolean discontinued;
+	
+	@Column(name="condition")
 	private String condition;
 	
 	public Product() {
@@ -155,6 +182,17 @@ public class Product implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", name=" + name + ", unitPrice=" + unitPrice + ", description="
+				+ description + ", manufacturer=" + manufacturer + ", category=" + category + ", unitsInStock="
+				+ unitsInStock + ", unitsInOrder=" + unitsInOrder + ", discontinued=" + discontinued + ", condition="
+				+ condition + "]";
 	}
 	
 	
