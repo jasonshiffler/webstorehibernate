@@ -18,30 +18,38 @@ import com.jshiffler.webstore.repository.CustomerRepository;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
+	
+	//Create the reference for the SessionFactory
+		@Autowired
+		private SessionFactory sessionFactory;
+		
+		public void setSessionFactory(SessionFactory sessionFactory) {
+			this.sessionFactory = sessionFactory;    
 
-			
+		}
+					
 		//Returns in List format all of the products in the repository
 		@Override
 		public List <Customer> getAllCustomers() {
-			
-			SessionFactory factory = new Configuration()
-					.configure("hibernate.cfg.xml")
-					.addAnnotatedClass(Customer.class)
-					.buildSessionFactory();
-			
-			//create session + begin the transaction 
-			Session session = factory.getCurrentSession();
-			session.beginTransaction();
+						
+			Session session = this.sessionFactory.getCurrentSession();
 			
 			List<Customer> theCustomers = session.createQuery("from Customer").list(); 
-			
-			//shutdown the transaction+factory
-			session.getTransaction().commit();
-			factory.close();
-			
+						
 			//Send back the results of the query
 			return theCustomers;  
 						
+		}
+
+		//Saves a customer object to the database
+		@Override
+		public void addCustomer(Customer newCustomer) {
+			//Grab the session from the Session Factory Singleton
+			Session session = this.sessionFactory.getCurrentSession();
+			
+			//Persist the object in the database
+			session.save(newCustomer);
+			
 		}
 
 		

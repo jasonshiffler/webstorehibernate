@@ -34,16 +34,14 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.updateStock(productID, qty);
 		
 	}
-	
-	
-	
+		
 	/* (non-Javadoc)
 	 * @see com.jshiffler.webstore.service.ProductService#getProductsByCategory(java.lang.String)
 	  Returns a list of products that match the category
 	 */
 	@Override
 	public List<Product> getProductsByCategory(String category) {
-		// TODO Auto-generated method stub
+		
 		return productRepository.getProductsByCategory(category);
 	}
 
@@ -67,7 +65,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> filterProducts(String category, Map<String, List<String>> filterParams) {
+		
 		return productRepository.filterProducts(category, filterParams);
+	}
+
+	@Override
+	public void addProduct(Product product) {
+
+		//Add the product to the repository
+		productRepository.addProduct(product);
+		
 	}
 
 

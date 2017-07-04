@@ -10,10 +10,11 @@ import com.jshiffler.webstore.domain.Product;
 public interface ProductService {
 
 	void updateStock(String productID, long qty);
+	void addProduct(Product product);
 	List <Product> getProductsByCategory(String category);
 	List <Product> getAllProducts();
     List <Product> getProductsByFilter(String category, String manufacturer);
     List <Product> filterProducts(String category,Map<String, List<String>> filterParams);
     Product getProductById(String productID);
-    
+        
 }

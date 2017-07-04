@@ -18,11 +18,14 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 3678107792576131001L;
 	
+    // This is the key
 	@Id
-	@Column(name="id")
+	// Define the column name in the database
+	@Column(name="id") 
 	private String productId;
 	
-	@Column(name="name")
+	
+	@Column(name="name") 
 	private String name;
 	
 	@Column(name="unit_price")
@@ -46,7 +49,8 @@ public class Product implements Serializable {
 	@Column(name="discontinued")
 	private boolean discontinued;
 	
-	@Column(name="condition")
+	//Don't use condition for a column name its a reserved word in MySQL
+	@Column(name="product_condition")
 	private String condition;
 	
 	public Product() {

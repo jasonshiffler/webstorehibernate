@@ -29,7 +29,6 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer){
 		configurer.enable();
-		
 	}
 
 	
@@ -41,28 +40,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		urlPathHelper.setRemoveSemicolonContent(false);
 		configurer.setUrlPathHelper(urlPathHelper);
 	}
-	/*
-	@Bean(name = "dataSource")
-	public DataSource getDataSource() {
-	    BasicDataSource dataSource = new BasicDataSource();
-	    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    dataSource.setUrl("jdbc:mysql://localhost:3306/webstore?useSSL=false&amp;serverTimezone=UTC");
-	    dataSource.setUsername("webstore");
-	    dataSource.setPassword("webstore");
-	 
-	    return dataSource;
-	}
 	
-	@Bean(name = "sessionFactory")
-	public SessionFactory getSessionFactory(DataSource dataSource) {
-	 
-	    LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-	 
-	    sessionBuilder.addAnnotatedClasses(Product.class);
-	 
-	    return sessionBuilder.buildSessionFactory();
-	}
-	*/
 //This is the view resolver that builds a path of the .jsp docs
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver(){

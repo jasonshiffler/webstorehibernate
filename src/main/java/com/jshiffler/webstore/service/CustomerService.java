@@ -7,5 +7,6 @@ import com.jshiffler.webstore.domain.Customer;
 public interface CustomerService {
 
 	List <Customer> getAllCustomers();
+	public void addCustomer(Customer newCustomer);
 	
 }
