@@ -8,3 +8,4 @@ This project is based on the book Spring MVC Beginner's Guide Second Edition by 
 -The author used HyperSQL DB. I went with MySQL instead.
 
 Like the author I tried to use Java based configuration as much as possible.
+
