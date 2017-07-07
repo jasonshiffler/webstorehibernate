@@ -23,11 +23,12 @@
 		<form:form method="POST" modelAttribute="newCustomer"
 			class="form-horizontal">
 			<fieldset>
-				<legend>Add new product</legend>
+				<legend>Add new customer</legend>
 
 				<div class="form-group">
-					<label class="control-label col-lg-2 col-lg-2" for="customerId">Customer
-						Id</label>
+					<label class="control-label col-lg-2 col-lg-2" for="customerId">
+						<spring:message code="addCustomer.form.customerId.label" />
+					</label>
 					<div class="col-lg-10">
 						<form:input id="customerId" path="customerId" type="text"
 							class="form:input-large" />
@@ -36,7 +37,8 @@
 
 				<div class="form-group">
 					<label class="control-label col-lg-2 col-lg-2" for="name">
-						Name</label>
+						<spring:message code="addCustomer.form.name.label" />
+					</label>
 					<div class="col-lg-10">
 						<form:input id="name" path="name" type="text"
 							class="form:input-large" />
@@ -45,14 +47,15 @@
 
 				<div class="form-group">
 					<label class="control-label col-lg-2 col-lg-2" for="address">
-						Address</label>
+						<spring:message code="addCustomer.form.address.label" />
+					</label>
 					<div class="col-lg-10">
 						<form:input id="address" path="address" type="text"
 							class="form:input-large" />
 					</div>
 				</div>
 
-				
+
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
 						<input type="submit" id="btnAdd" class="btn btn-primary"

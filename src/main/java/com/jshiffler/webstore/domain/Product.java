@@ -10,6 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name="products")
@@ -42,7 +45,7 @@ public class Product implements Serializable {
 	
 	@Column(name="units_in_stock")
 	private long unitsInStock;
-	
+		
 	@Column(name="units_in_order")
 	private long unitsInOrder;
 	
@@ -52,6 +55,12 @@ public class Product implements Serializable {
 	//Don't use condition for a column name its a reserved word in MySQL
 	@Column(name="product_condition")
 	private String condition;
+	
+	// This is used to store the image file and doesn't need to be persisted.
+	@Transient
+	private MultipartFile productImage;
+	
+
 	
 	public Product() {
 	super();
@@ -187,7 +196,16 @@ public class Product implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
 
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -198,6 +216,8 @@ public class Product implements Serializable {
 				+ unitsInStock + ", unitsInOrder=" + unitsInOrder + ", discontinued=" + discontinued + ", condition="
 				+ condition + "]";
 	}
+
+	
 	
 	
 	
