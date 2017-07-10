@@ -12,3 +12,5 @@ The handling of multipart requests for file uploads is one example.
 -The author used HyperSQL DB. I went with MySQL instead.
 
 Like the author I tried to use Java based configuration as much as possible.
+
+The project is not finished yet.
