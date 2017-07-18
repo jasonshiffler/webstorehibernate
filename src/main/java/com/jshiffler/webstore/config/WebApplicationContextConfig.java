@@ -1,6 +1,9 @@
 package com.jshiffler.webstore.config;
 
+import java.util.ArrayList;
+
 import javax.sql.DataSource;
+
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -11,16 +14,25 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import com.jshiffler.webstore.domain.Customer;
 import com.jshiffler.webstore.domain.Product;
 
 
@@ -52,7 +64,6 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		// /webstore/img/image.png is located under the resources/images dir 
 		
 		registry.addResourceHandler("/img/**").addResourceLocations("/resources/images/");
-				
 	}
 	
 	
@@ -64,7 +75,6 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
 		return resolver;
-		
 	}
 	
 	
@@ -79,8 +89,6 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 	}
 
 	
-	
-	
 	// This is used to externalize the labels in our .jsp files.
 	// The messages are stored in the messages.properties file
 	@Bean
@@ -94,10 +102,48 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		resource.setBasename("messages");
 		
 		return resource;
-
-
 	}
 
+	// View used to return JSON data as an alternative to JSP
+	// For example /webstore/customers.json or /webstore/products.json
+	@Bean
+	public MappingJackson2JsonView jsonView() {
+		MappingJackson2JsonView jsonView = new
+				MappingJackson2JsonView();
+		jsonView.setPrettyPrint(true);
+		
+		return jsonView;
+		
+	}
+	
+    // View used to return XML data as an alternative to JSP 
+	@Bean 
+	public MarshallingView xmlView(){
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(Product.class);
+		MarshallingView xmlView = new MarshallingView(marshaller);
+		return xmlView;
+		
+	}
+	
+	// Is a traffic cop for the XML and JSON View Beans
+	@Bean
+	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+		
+		ContentNegotiatingViewResolver resolver = new
+				ContentNegotiatingViewResolver();
+		resolver.setContentNegotiationManager(manager);
+		
+		ArrayList<View> views = new ArrayList<>();
+		views.add(jsonView());
+		views.add(xmlView());
+		
+		resolver.setDefaultViews(views);
+		return resolver;
+		
+	}
+	
+	
 
 
 }

@@ -11,11 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
+// Specifies the table name in the db
 @Table(name="products")
+// Allows the MarshallingView to identify the rool XML element in this object 
+@XmlRootElement
 public class Product implements Serializable { 
 	
 
@@ -58,6 +64,7 @@ public class Product implements Serializable {
 	
 	// This is used to store the image file and doesn't need to be persisted.
 	@Transient
+	@JsonIgnore
 	private MultipartFile productImage;
 	
 
@@ -197,6 +204,7 @@ public class Product implements Serializable {
 		return serialVersionUID;
 	}
 	
+	@XmlTransient
 	public MultipartFile getProductImage() {
 		return productImage;
 	}

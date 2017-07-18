@@ -16,13 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.jshiffler.webstore.domain.Product;
+import com.jshiffler.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.jshiffler.webstore.exception.ProductNotFoundException;
 import com.jshiffler.webstore.service.ProductService;
 
 @Controller
@@ -33,6 +37,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService; 
 
+		
 	// Tells Spring which fields are allowed for form binding to prevent bogus data from being passed 
 	// in
 	@InitBinder
@@ -43,9 +48,23 @@ public class ProductController {
 		binder.setAllowedFields("productId", "name", "unitPrice",
 				"description", "manufacturer", "category",
 				"unitsInStock", "condition", "productImage");
-
 	}
 
+	
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleError(HttpServletRequest req, 
+			ProductNotFoundException exception){
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("invalidProductId", exception.getProductId());
+		mav.addObject("exception", exception);
+		mav.addObject("url",
+		req.getRequestURL()+"?"+req.getQueryString());
+		mav.setViewName("productNotFound");
+		return mav;
+	}
+	
+	
+	
 	// Displays all products
 	// Sample URL: /products
 	@RequestMapping("/products")
@@ -86,8 +105,17 @@ public class ProductController {
 	public String getProductsByCategory(Model model,                
 			@PathVariable("category") String productCategory){       //map the category in the URL to productCategory variable   
 
+		// Grab a list of the products from the service layer that match the requested
+		// category
+		List<Product> products = productService.getProductsByCategory(productCategory);
+		
+		// If we didn't find a product matching that category throw an exception
+				if (products == null || products.isEmpty()) {
+			        throw new NoProductsFoundUnderCategoryException();
+				}
+				
 		// Request all products in a category from the service layer and add it to the model
-		model.addAttribute("products", productService.getProductsByCategory(productCategory)); 
+		model.addAttribute("products", products); 
 
 		// Let the View Resolver know what view page to use
 		return "products";                                         
@@ -125,7 +153,7 @@ public class ProductController {
 		return "redirect:/market/products/";
 	}
 
-	// Used to allow new products to be addeded
+	// Used to allow new products to be added
 	@RequestMapping(value="/products/add", method = RequestMethod.GET)
 	public String getAddNewProductForm(Model model){
 

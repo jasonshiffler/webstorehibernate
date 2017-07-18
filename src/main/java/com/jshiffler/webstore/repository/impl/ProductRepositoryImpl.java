@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import com.jshiffler.webstore.domain.Product;
+import com.jshiffler.webstore.exception.ProductNotFoundException;
 import com.jshiffler.webstore.repository.ProductRepository;
 
 
@@ -113,6 +114,12 @@ public class ProductRepositoryImpl implements ProductRepository {
 		Query query = session.createQuery("from Product where id=:id"); 
 		query.setParameter("id", productID);
 		Product result = (Product) query.uniqueResult();
+		
+		if (result == null) {
+			throw new ProductNotFoundException(productID);
+			
+		} 
+		
 		
 		return result;
 
