@@ -1,5 +1,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
@@ -9,6 +10,14 @@
 <title>Products</title>
 </head>
 <body>
+
+<section>
+		<div class="pull-right" style="padding-right:50px">
+			<a href="<c:url value="/logout" />">Logout</a>
+		</div>
+	</section>
+
+
 
 	<section>
 		<div class="jumbotron">

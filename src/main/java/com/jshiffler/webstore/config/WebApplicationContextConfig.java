@@ -16,10 +16,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -34,6 +36,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import com.jshiffler.webstore.domain.Customer;
 import com.jshiffler.webstore.domain.Product;
+import com.jshiffler.webstore.interceptor.ProcessingTimeLogInterceptor;
+import com.jshiffler.webstore.interceptor.PromoCodeInterceptor;
 
 
 // Create the application context container to manage Beans
@@ -47,6 +51,19 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		configurer.enable();
 	}
 
+	@Bean
+	public HandlerInterceptor promoCodeInterceptor() {
+		
+		PromoCodeInterceptor promoCodeInterceptor = new 
+				PromoCodeInterceptor();
+		promoCodeInterceptor.setPromoCode("OFF3R");
+		promoCodeInterceptor.setOfferRedirect("/market/products");
+		promoCodeInterceptor.setErrorRedirect("invalidPromoCode");
+		
+		return promoCodeInterceptor;
+		
+	}
+		
 
 	// Enable matrix variable support by overriding the configurePathMatchMethod
 	@Override
@@ -68,7 +85,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 	
 	
 	// Allows for multipart http requests in order to upload files for things such
-	// as products
+	// as product pictures
 	@Bean
 	public CommonsMultipartResolver multipartResolver(){
 		
@@ -143,6 +160,12 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		
 	}
 	
+	// Pull in the interceptors we've created for pre+post event processing
+	@Override
+	public void addInterceptors(InterceptorRegistry registry){
+		registry.addInterceptor(new ProcessingTimeLogInterceptor());
+		
+	}
 	
 
 

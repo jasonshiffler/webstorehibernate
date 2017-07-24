@@ -3,11 +3,13 @@ package com.jshiffler.webstore.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jshiffler.webstore.domain.Product;
+import com.jshiffler.webstore.interceptor.ProcessingTimeLogInterceptor;
 import com.jshiffler.webstore.repository.ProductRepository;
 import com.jshiffler.webstore.service.ProductService;
 
@@ -18,6 +20,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	private static final Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
 	
 	public void updateAllStock() {
 		List<Product> allProducts = productRepository.getAllProducts();
@@ -41,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public List<Product> getProductsByCategory(String category) {
-		
+				
 		return productRepository.getProductsByCategory(category);
 	}
 
